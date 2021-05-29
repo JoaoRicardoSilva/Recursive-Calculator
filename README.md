@@ -19,7 +19,7 @@ Create a calculator that have 7 functionalities.
 •	S – Sair
 
 
-Some rules:
+**Some rules:**
 
 •	Cannot use iterations.
 
