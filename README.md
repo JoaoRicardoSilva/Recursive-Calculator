@@ -1,26 +1,29 @@
 # Recursive-Calculator
+
 Project for training JavaScript!
 
 ### **Objective:**
+
 Create a calculator that have 7 functionalities.
 
 • VM - Consultar o valor da memoria
 
-•	LM - Indicar o nome das memorias
+• LM - Indicar o nome das memorias
 
-•	CE - Calcular o valor duma expressao
+• CE - Calcular o valor duma expressao
 
-•	AVM - Atribuir ultimo valor calculado a uma memoria
+• AVM - Atribuir ultimo valor calculado a uma memoria
 
-•	A - Ajuda
+• A - Ajuda
 
-•	AM - Alocar Memória
+• AM - Alocar Memória
 
-•	S – Sair
-
+• S – Sair
 
 **Some rules:**
 
-•	Cannot use iterations.
+• Cannot use iterations.
 
-•	The calculator has two memories max.
+• The calculator has two memories max.
+
+• Assume that the user will not make mistakes when entering arguments to the commands
