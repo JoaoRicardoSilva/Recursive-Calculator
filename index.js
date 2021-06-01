@@ -77,7 +77,9 @@ const recursiveCalculator = () => {
         const ce = () => {
             const ceRegex =
                 /^ (-?\d+.?\d*)| ((\S) \((.*)\) \((.*)\))| ((\w+) \((-?\d+.?\d*)\))$/gm;
-            let group = ceRegex.exec(userInput);
+            let groupFunc = (arg1) => ceRegex.exec(arg1);
+            const group = groupFunc(userInput);
+            console.log(group[4]);
 
             const operators = {
                 "+": parseInt(group[4]) + parseInt(group[5]),
@@ -95,17 +97,15 @@ const recursiveCalculator = () => {
             };
 
             const calculation = () => {
-                group[4] !== NaN
-                    ? (() => {
-                          group = group[4];
-                          console.log("test");
-                          calculation();
-                      })()
-                    : group[3]
-                    ? console.log(operators[group[3]])
+                console.log("test");
+                const newGroup = group[4];
+                group = ceRegex.exec(newGroup);
+                console.log(group);
+                group[3]
+                    ? operators[group[3]]
                     : group[7]
-                    ? console.log(operators[group[7]])
-                    : console.log("ERROR");
+                    ? operators[group[7]]
+                    : calculation();
             };
 
             calculation();
