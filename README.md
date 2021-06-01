@@ -26,4 +26,12 @@ Create a calculator that have 7 functionalities.
 
 • The calculator has two memories max.
 
-• Assume that the user will not make mistakes when entering arguments to the commands
+• The user will not make mistakes when entering arguments to the commands
+
+• In AM Command, user only create only two memories
+
+**Possible improvements:**
+
+• Change the Portuguese to English
+
+• Change unaryOperator to case insensitive

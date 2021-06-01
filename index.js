@@ -19,7 +19,7 @@ const recursiveCalculator = () => {
     const debug = (arg1, arg2) => console.log(`${arg1} is: ${arg2}`);
 
     //Memory
-    let memory = [];
+    let memory = { first: 15.365 };
 
     const loop = () => {
         // Ask input
@@ -36,7 +36,6 @@ const recursiveCalculator = () => {
         };
         const commandConst = command(userInput);
         debug("Command", commandConst);
-        console.log(typeof commandConst);
 
         //Command S
         const s = () => {
@@ -55,19 +54,72 @@ const recursiveCalculator = () => {
             console.log("S – Sair");
         };
 
+        // VM Command
+        const vm = () => {
+            const vmRegex = /^(\w+) (\w+)/gi;
+            const memoryName = vmRegex.exec(userInput);
+
+            memory[memoryName[2]]
+                ? console.log(
+                      `${memoryName[2]}: ${memory[memoryName[2]].toFixed(2)}`
+                  )
+                : console.log("Memoria nao existente.");
+        };
+
+        // LM Command
+        const lm = () => {
+            Object.entries(memory).forEach(([key, value]) =>
+                console.log(`${key}: ${value.toFixed(2)}`)
+            );
+        };
+
+        // CE Command
+        const ce = () => {
+            const ceRegex =
+                /^ (-?\d+.?\d*)| ((\S) \((.*)\) \((.*)\))| ((\w+) \((-?\d+.?\d*)\))$/gm;
+            let group = ceRegex.exec(userInput);
+
+            const operators = {
+                "+": parseInt(group[4]) + parseInt(group[5]),
+                "-": group[4] - group[5],
+                "*": group[4] * group[5],
+                "/": group[4] / group[5],
+                ABS: Math.abs(group[8]),
+                COS: Math.cos(group[8]),
+                LOG: Math.log(group[8]),
+                CEIL: Math.ceil(group[8]),
+                FLOOR: Math.floor(group[8]),
+                SIN: Math.sin(group[8]),
+                ROUND: Math.round(group[8]),
+                EXP: Math.exp(group[8]),
+            };
+
+            const calculation = () => {
+                group[4] !== NaN
+                    ? (() => {
+                          group = group[4];
+                          console.log("test");
+                          calculation();
+                      })()
+                    : group[3]
+                    ? console.log(operators[group[3]])
+                    : group[7]
+                    ? console.log(operators[group[7]])
+                    : console.log("ERROR");
+            };
+
+            calculation();
+        };
+
         // Command AM
         const am = () => {
             const amRegex = /^(\w+) (\w+)/gi;
             const name = amRegex.exec(userInput);
-            const nameArr = [name[2]];
-            console.log(nameArr);
-            memory.push(nameArr);
-            console.log(memory);
-            if (memory[2]) {
-                memory.shift();
-            }
-            console.log(memory);
+
+            // Creating the memory
+            memory[name[2]] = null;
         };
+
         // Run the command
         const check = (arg1) => {
             return commandConst.toUpperCase() === arg1;
@@ -77,11 +129,11 @@ const recursiveCalculator = () => {
             : check("A")
             ? a()
             : check("VM")
-            ? console.log("vm")
-            : check("LMS")
-            ? console.log("lm")
+            ? vm()
+            : check("LM")
+            ? lm()
             : check("CE")
-            ? console.log("ce")
+            ? ce()
             : check("AVM")
             ? console.log("avm")
             : check("AM")
