@@ -75,40 +75,33 @@ const recursiveCalculator = () => {
 
         // CE Command
         const ce = () => {
-            const ceRegex =
-                /^ (-?\d+.?\d*)| ((\S) \((.*)\) \((.*)\))| ((\w+) \((-?\d+.?\d*)\))$/gm;
-            let groupFunc = (arg1) => ceRegex.exec(arg1);
-            const group = groupFunc(userInput);
-            console.log(group[4]);
-
-            const operators = {
-                "+": parseInt(group[4]) + parseInt(group[5]),
-                "-": group[4] - group[5],
-                "*": group[4] * group[5],
-                "/": group[4] / group[5],
-                ABS: Math.abs(group[8]),
-                COS: Math.cos(group[8]),
-                LOG: Math.log(group[8]),
-                CEIL: Math.ceil(group[8]),
-                FLOOR: Math.floor(group[8]),
-                SIN: Math.sin(group[8]),
-                ROUND: Math.round(group[8]),
-                EXP: Math.exp(group[8]),
+            const binaryOperators = {
+                "+": "",
+                "-": "",
+                "*": "",
+                "/": "",
             };
 
-            const calculation = () => {
-                console.log("test");
-                const newGroup = group[4];
-                group = ceRegex.exec(newGroup);
-                console.log(group);
-                group[3]
-                    ? operators[group[3]]
-                    : group[7]
-                    ? operators[group[7]]
-                    : calculation();
+            const unaryOperators = {
+                ABS: Math.abs(""),
+                COS: Math.cos(""),
+                LOG: Math.log(""),
+                CEIL: Math.ceil(""),
+                FLOOR: Math.floor(""),
+                SIN: Math.sin(""),
+                ROUND: Math.round(""),
+                EXP: Math.exp(""),
             };
 
-            calculation();
+            const calculation = (str) => {
+                const strSpc = str.replaceAll(" ", "");
+                console.log(strSpc);
+                const strSpc = binaryOperators.hasOwnProperty(str[3])
+                    ? console.log("Work")
+                    : console.log("D-Work");
+            };
+
+            calculation(userInput);
         };
 
         // Command AM
