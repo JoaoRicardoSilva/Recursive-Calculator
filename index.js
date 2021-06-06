@@ -93,13 +93,7 @@ const recursiveCalculator = () => {
                 EXP: Math.exp(""),
             };
 
-            const calculation = (str) => {
-                const strSpc = str.replaceAll(" ", "");
-                console.log(strSpc);
-                const strSpc = binaryOperators.hasOwnProperty(str[3])
-                    ? console.log("Work")
-                    : console.log("D-Work");
-            };
+            const calculation = (str) => {};
 
             calculation(userInput);
         };
