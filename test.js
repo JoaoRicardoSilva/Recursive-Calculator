@@ -36,10 +36,10 @@ const ce = (str) => {
 
         let strArr = [...input].map((bracket) => {
             let bracketsIndex = brackets.indexOf(bracket);
-            console.log(bracketsIndex);
+            // console.log(bracketsIndex);
 
             index++;
-            console.log("index is: " + index);
+            // console.log("index is: " + index);
             if (bracketsIndex === -1) {
                 return;
             }
@@ -54,9 +54,9 @@ const ce = (str) => {
 
             if (stack.length === 0) {
                 closeBracketIndex.push(index);
-                console.log("Bracket index is: " + closeBracketIndex);
+                // console.log("Bracket index is: " + closeBracketIndex);
             }
-            console.log("Stack is: " + stack);
+            // console.log("Stack is: " + stack);
         });
 
         return stack.length === 0;
@@ -65,12 +65,12 @@ const ce = (str) => {
 
     binaryOperators.hasOwnProperty(userInputSplice[0])
         ? (() => {
-              const arg1 = [...userInputSplice]
+              let arg1 = [...userInputSplice]
                   .slice(3, closeBracketIndex[0])
                   .join("");
               console.log("arg1 is: " + arg1);
-              const operator = userInputSplice[0];
-              const arg2 = [...userInputSplice]
+              let operator = userInputSplice[0];
+              let arg2 = [...userInputSplice]
                   .slice(closeBracketIndex[0] + 3, userInputSplice.length - 1)
                   .join("");
               console.log("arg2 is: " + arg2);
@@ -80,27 +80,30 @@ const ce = (str) => {
                   "*": parseFloat(arg1) * parseFloat(arg2),
                   "/": parseFloat(arg1) / parseFloat(arg2),
               };
+
               isNaN(parseFloat(arg1)) === true &&
               isNaN(parseFloat(arg2)) === false
-                  ? ce(arg1)
-                  : console.log();
-              isNaN(parseFloat(arg1)) === false &&
-              isNaN(parseFloat(arg2)) === true
-                  ? ce(arg2)
-                  : console.log();
-              isNaN(parseFloat(arg1)) === true &&
-              isNaN(parseFloat(arg2)) === true
                   ? (() => {
-                        ce(arg1);
-                        ce(arg2);
+                        arg1 = ce(arg1);
                     })()
-                  : console.log();
-              isNaN(binaryCalculation[userInputSplice[0]] === true)
-                  ? console.log("bla")
-                  : (() => {
-                        console.log(binaryCalculation[userInputSplice[0]]);
-                        return binaryCalculation[userInputSplice[0]];
-                    })();
+                  : isNaN(parseFloat(arg1)) === false &&
+                    isNaN(parseFloat(arg2)) === true
+                  ? (() => {
+                        arg2 = ce(arg2);
+                    })()
+                  : isNaN(parseFloat(arg1)) === true &&
+                    isNaN(parseFloat(arg2)) === true
+                  ? (() => {
+                        arg1 = parseFloat(ce(arg1));
+                        arg2 = parseFloat(ce(arg2));
+                    })()
+                  : console.log("All are numbers");
+
+              console.log("New arg1 is: " + arg1);
+              console.log("New arg2 is: " + arg2);
+              let result = binaryCalculation[userInputSplice[0]];
+              console.log("Result is: " + result);
+              return result;
           })()
         : console.log("Future unary functions")
         ? console.log("Uni")
