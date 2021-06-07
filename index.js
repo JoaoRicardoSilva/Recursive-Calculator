@@ -75,6 +75,7 @@ const recursiveCalculator = () => {
 
         // CE Command
         const ce = () => {
+            let closeBracketIndex = [];
             const binaryOperators = {
                 "+": "",
                 "-": "",
@@ -93,9 +94,36 @@ const recursiveCalculator = () => {
                 EXP: Math.exp(""),
             };
 
-            const calculation = (str) => {};
+            const isBalanced = (input) => {
+                const brackets = "()";
+                let stack = [];
 
-            calculation(userInput);
+                let strArr = [...input].map((bracket) => {
+                    let bracketsIndex = brackets.indexOf(bracket);
+                    console.log(bracketsIndex);
+
+                    if (bracketsIndex === -1) {
+                        return;
+                    }
+
+                    if (bracketsIndex % 2 === 0) {
+                        stack.push(bracketsIndex + 1);
+                    } else {
+                        if (stack.pop() !== bracketsIndex) {
+                            return false;
+                        }
+                    }
+
+                    if (stack.length === 0) {
+                        closeBracketIndex.push(input.indexOf(bracket));
+                        console.log(closeBracketIndex);
+                    }
+                });
+
+                console.log(stack.length === 0);
+                return stack.length === 0;
+            };
+            isBalanced(userInput);
         };
 
         // Command AM
