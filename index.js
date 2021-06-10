@@ -26,7 +26,7 @@ const recursiveCalculator = () => {
         const userInput = window.prompt(
             "Hello user! What you need me to do? (Press A for help)"
         );
-        console.log({ userInput });
+        // console.log({ userInput });
 
         // Memorize the command
         const command = (arg) => {
@@ -35,23 +35,19 @@ const recursiveCalculator = () => {
             return commandArr[0];
         };
         const commandConst = command(userInput);
-        console.log({ commandConst });
+        // console.log({ commandConst });
 
         //Command S
         const s = () => {
-            console.log("Aplicacao terminada. Ate a proxima");
-            throw "";
+            window.alert("Aplicacao terminada. Ate a proxima.");
+            return;
         };
 
         // Command A
         const a = () => {
-            console.log("VM - Consultar o valor da memoria ");
-            console.log("LM - Indicar o nome das memorias");
-            console.log("CE - Calcular o valor duma expressao ");
-            console.log("AVM - Atribuir ultimo valor calculado a uma memoria");
-            console.log("A - Ajuda");
-            console.log("AM - Alocar Memória");
-            console.log("S – Sair");
+            window.alert(
+                "VM - Consultar o valor da memoria\nLM - Indicar o nome das memorias\nCE - Calcular o valor duma expressao\nAVM - Atribuir ultimo valor calculado a uma memoria\nA - Ajuda\nAM - Alocar Memória\nS – Sair"
+            );
         };
 
         // VM Command
@@ -60,19 +56,22 @@ const recursiveCalculator = () => {
             const name = amRegex.exec(userInput);
 
             if (!memory.hasOwnProperty(name[2])) {
-                return console.log("Memoria nao existente.");
+                window.alert("Memoria nao existente.");
             }
 
-            console.log(`${name[2]}: ${memory[name[2]]}`);
+            window.alert(`${name[2]}: ${memory[name[2]]}`);
         };
 
         // LM Command
         const lm = () => {
-            Object.entries(memory).forEach(([key, value]) =>
-                console.log(`${key}: ${value}`)
-            );
+            const keysArr = Object.keys(memory);
 
-            console.log("Calculadora sem memorias.");
+            if (keysArr == 0) {
+                window.alert("Calculadora sem memorias.");
+            }
+            Object.entries(memory).forEach(([key, value]) =>
+                window.alert(`${key}: ${value}`)
+            );
         };
 
         // CE Command
@@ -83,7 +82,7 @@ const recursiveCalculator = () => {
             if (str.match(/^(CE )/gi)) {
                 userInputSplice = [...str].splice(3).join("");
             }
-            console.log({ userInputSplice });
+            // console.log({ userInputSplice });
 
             // If userInputSplice is a number
             if (parseFloat(userInputSplice)) {
@@ -167,7 +166,7 @@ const recursiveCalculator = () => {
             isBalanced(userInputSplice);
 
             if (balanced.length !== 0) {
-                return console.log("Expressao mal definida.");
+                return (finalResult = "Expressao mal definida.");
             }
 
             const calculation = () => {
@@ -256,6 +255,14 @@ const recursiveCalculator = () => {
                     let operator = regexOperator.toString();
                     console.log({ operator });
 
+                    //Check if arg1 and arg2 have brackets
+                    if (
+                        userInputSplice[openBracketIndex[0]] !== "(" ||
+                        userInputSplice[userInputSplice.length - 1] !== ")"
+                    ) {
+                        return (finalResult = "Expressao mal definida.");
+                    }
+
                     // If arg3 is on memory
                     if (memory.hasOwnProperty(arg3)) {
                         arg3 = memory[arg3];
@@ -311,10 +318,10 @@ const recursiveCalculator = () => {
             // Creating the memory
 
             if (!memory.hasOwnProperty(name[2])) {
-                return console.log("Memoria nao existente.");
+                window.alert("Memoria nao existente.");
             }
             memory[name[2]] = ramMemory.toFixed(2);
-            console.log(`${name[2]}: ${memory[name[2]]}`);
+            window.alert(`${name[2]}: ${memory[name[2]]}`);
         };
 
         // Command AM
@@ -323,9 +330,9 @@ const recursiveCalculator = () => {
             const name = amRegex.exec(userInput);
 
             // Creating the memory
-            memory[name[2]] = true;
+            memory[name[2]] = 0.0;
             console.log(memory);
-            console.log(`Memoria criada com o nome: ${name[2]}`);
+            window.alert(`Memoria criada com o nome: ${name[2]}`);
         };
 
         // Run the command
@@ -336,7 +343,6 @@ const recursiveCalculator = () => {
         check("S")
             ? (() => {
                   s();
-                  loop();
               })()
             : check("A")
             ? (() => {
@@ -359,7 +365,8 @@ const recursiveCalculator = () => {
                   if (parseFloat(result)) {
                       result = result.toFixed(2);
                   }
-                  console.log(result);
+
+                  window.alert(result);
                   loop();
               })()
             : check("AVM")
