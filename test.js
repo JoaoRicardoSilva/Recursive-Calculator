@@ -1,14 +1,24 @@
-const string = "CE + (+ (-1) (5)) (+ (-1) (5))";
-
+const string = "CE * (+ (* (+ (4566578) (5)) (LOG (* (+ (+ (1) (5)) (+ (3) (+ (2) (* (7) (5))))) (COS (1))))) (5)) (LOG (* (+ (+ (1) (5)) (+ (3) (+ (2) (* (7) (5))))) (COS (1)))";
 const ce = (str) => {
-    let userInputSplice = "";
-    str[0] === "C" || str[0] === "c"
-        ? (userInputSplice = [...str].splice(3).join(""))
-        : (userInputSplice = str);
-    console.log("userInputSlice: " + userInputSplice);
+    let finalResult = 0;
+    // Take the Command if needed
+    let userInputSplice = str;
+    if (str.match(/^(CE )/gi)) {
+        userInputSplice = [...str].splice(3).join("");
+    }
+    console.log({ userInputSplice });
+
+    // Preparation for binary operators
     let index = -1;
     let closeBracketIndex = [];
-    // const regex = userInputSplice.match(/^([a-zA-Z]+)/g);
+
+    // Preparation for unary operators
+    let openBracketIndex = [];
+    const regex = /^([a-zA-Z]+)/g;
+    const regexOperator = userInputSplice.match(regex);
+    // console.log({ regexOperator });
+
+    let balanced = ""
 
     const binaryOperators = {
         "+": "",
@@ -28,11 +38,10 @@ const ce = (str) => {
         EXP: Math.exp(""),
     };
 
+    //"CE + (+ (-1) (5)) (+ (-1) (5))";
     const isBalanced = (input) => {
         const brackets = "[]()";
         let stack = [];
-
-        console.log("Input is: " + input);
 
         let strArr = [...input].map((bracket) => {
             let bracketsIndex = brackets.indexOf(bracket);
@@ -40,6 +49,7 @@ const ce = (str) => {
 
             index++;
             // console.log("index is: " + index);
+
             if (bracketsIndex === -1) {
                 return;
             }
@@ -52,62 +62,114 @@ const ce = (str) => {
                 }
             }
 
+            // Return close bracket's index
             if (stack.length === 0) {
                 closeBracketIndex.push(index);
-                // console.log("Bracket index is: " + closeBracketIndex);
+                // console.log("Close bracket index is: " + closeBracketIndex);
             }
-            // console.log("Stack is: " + stack);
+
+            // Return 1st open bracket's index
+            if (stack.length === 1) {
+                openBracketIndex.push(index);
+                // console.log({ openBracketIndex });
+            }
+
+            // console.log({ stack });
         });
 
+        balanced = stack
+
         return stack.length === 0;
+
+        
     };
     isBalanced(userInputSplice);
 
-    binaryOperators.hasOwnProperty(userInputSplice[0])
-        ? (() => {
-              let arg1 = [...userInputSplice]
-                  .slice(3, closeBracketIndex[0])
-                  .join("");
-              console.log("arg1 is: " + arg1);
-              let operator = userInputSplice[0];
-              let arg2 = [...userInputSplice]
-                  .slice(closeBracketIndex[0] + 3, userInputSplice.length - 1)
-                  .join("");
-              console.log("arg2 is: " + arg2);
-              const binaryCalculation = {
-                  "+": parseFloat(arg1) + parseFloat(arg2),
-                  "-": parseFloat(arg1) - parseFloat(arg2),
-                  "*": parseFloat(arg1) * parseFloat(arg2),
-                  "/": parseFloat(arg1) / parseFloat(arg2),
-              };
+    if (balanced !== 0) {
+        return console.log("Expressao mal definida.");
+    }
 
-              isNaN(parseFloat(arg1)) === true &&
-              isNaN(parseFloat(arg2)) === false
-                  ? (() => {
-                        arg1 = ce(arg1);
-                    })()
-                  : isNaN(parseFloat(arg1)) === false &&
-                    isNaN(parseFloat(arg2)) === true
-                  ? (() => {
-                        arg2 = ce(arg2);
-                    })()
-                  : isNaN(parseFloat(arg1)) === true &&
-                    isNaN(parseFloat(arg2)) === true
-                  ? (() => {
-                        arg1 = parseFloat(ce(arg1));
-                        arg2 = parseFloat(ce(arg2));
-                    })()
-                  : console.log("All are numbers");
+    const calculation = () => {
+        if (binaryOperators.hasOwnProperty(userInputSplice[0])) {
+            let arg1 = [...userInputSplice]
+                .slice(3, closeBracketIndex[0])
+                .join("");
+            console.log("arg1 is: " + arg1);
+            let operator = userInputSplice[0];
+            let arg2 = [...userInputSplice]
+                .slice(closeBracketIndex[0] + 3, userInputSplice.length - 1)
+                .join("");
+            console.log("arg2 is: " + arg2);
 
-              console.log("New arg1 is: " + arg1);
-              console.log("New arg2 is: " + arg2);
-              let result = binaryCalculation[userInputSplice[0]];
-              console.log("Result is: " + result);
-              return result;
-          })()
-        : console.log("Future unary functions")
-        ? console.log("Uni")
-        : console.log("Error");
+            const binaryCalculation = (num1, num2) => {
+                console.log({ num1, num2 });
+
+                return {
+                    "+": parseFloat(num1) + parseFloat(num2),
+                    "-": parseFloat(num1) - parseFloat(num2),
+                    "*": parseFloat(num1) * parseFloat(num2),
+                    "/": parseFloat(num1) / parseFloat(num2),
+                };
+            };
+
+            if (parseFloat(arg1)) {
+                console.log("Arg1 is a number");
+            } else {
+                arg1 = parseFloat(ce(arg1));
+                console.log("if not number" + arg1);
+            }
+
+            if (parseFloat(arg2)) {
+                console.log("Arg2 is a number");
+            } else {
+                arg2 = parseFloat(ce(arg2));
+            }
+
+            console.log("New arg1 is: " + arg1, typeof arg1);
+            console.log("New arg2 is: " + arg2, typeof arg2);
+            finalResult = parseFloat(binaryCalculation(arg1, arg2)[operator]);
+        } else if (unaryOperators.hasOwnProperty(regexOperator)) {
+            let arg3 = [...userInputSplice]
+                .slice(openBracketIndex[0] + 1, userInputSplice.length - 1)
+                .join("");
+            console.log({ arg3 });
+
+            let operator = regexOperator.toString();
+            console.log({ operator });
+
+            if (parseFloat(arg3)) {
+                console.log("Arg3 is a number");
+            } else {
+                console.log("Arg3 is not a number");
+                arg3 = parseFloat(ce(arg3));
+            }
+
+            const unaryCalculation = (num3) => {
+                console.log({ num3 });
+
+                return {
+                    ABS: Math.abs(num3),
+                    COS: Math.cos(num3),
+                    LOG: Math.log(num3),
+                    CEIL: Math.ceil(num3),
+                    FLOOR: Math.floor(num3),
+                    SIN: Math.sin(num3),
+                    ROUND: Math.round(num3),
+                    EXP: Math.exp(num3),
+                };
+            };
+
+            arg3 = parseFloat(arg3);
+            console.log("New arg3 is: " + arg3, typeof arg3);
+            finalResult = unaryCalculation(arg3)[operator];
+        } else {
+            console.log("Error");
+        }
+    };
+    calculation();
+
+    console.log({ finalResult });
+    return finalResult;
 };
 
 ce(string);
