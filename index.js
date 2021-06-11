@@ -65,13 +65,26 @@ const recursiveCalculator = () => {
         // LM Command
         const lm = () => {
             const keysArr = Object.keys(memory);
-
+            console.log(memory);
             if (keysArr == 0) {
                 window.alert("Calculadora sem memorias.");
+            } else if (keysArr[0] && !keysArr[1]) {
+                console.log("Test1");
+                Object.entries(memory).forEach(([key, value]) =>
+                    window.alert(`${key}: ${value}`)
+                );
+            } else if (keysArr[1]) {
+                console.log("Test2");
+                let preResultAlert = [];
+                Object.entries(memory).forEach(([key, value]) =>
+                    preResultAlert.push(` ${key}: ${value};`)
+                );
+                let posResultAlert = preResultAlert
+                    .join("")
+                    .substr(1, preResultAlert.join("").length - 2);
+
+                window.alert(posResultAlert);
             }
-            Object.entries(memory).forEach(([key, value]) =>
-                window.alert(`${key}: ${value}`)
-            );
         };
 
         // CE Command
@@ -110,14 +123,14 @@ const recursiveCalculator = () => {
             };
 
             const unaryOperators = {
-                ABS: Math.abs(""),
-                COS: Math.cos(""),
-                LOG: Math.log(""),
-                CEIL: Math.ceil(""),
-                FLOOR: Math.floor(""),
-                SIN: Math.sin(""),
-                ROUND: Math.round(""),
-                EXP: Math.exp(""),
+                ABS: "",
+                COS: "",
+                LOG: "",
+                CEIL: "",
+                FLOOR: "",
+                SIN: "",
+                ROUND: "",
+                EXP: "",
             };
 
             //"CE + (+ (-1) (5)) (+ (-1) (5))";
