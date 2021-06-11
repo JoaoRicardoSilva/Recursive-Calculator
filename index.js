@@ -82,7 +82,7 @@ const recursiveCalculator = () => {
             if (str.match(/^(CE )/gi)) {
                 userInputSplice = [...str].splice(3).join("");
             }
-            // console.log({ userInputSplice });
+            console.log({ userInputSplice });
 
             // If userInputSplice is a number
             if (parseFloat(userInputSplice)) {
@@ -319,9 +319,10 @@ const recursiveCalculator = () => {
 
             if (!memory.hasOwnProperty(name[2])) {
                 window.alert("Memoria nao existente.");
+            } else {
+                memory[name[2]] = ramMemory.toFixed(2);
+                window.alert(`${name[2]}: ${memory[name[2]]}`);
             }
-            memory[name[2]] = ramMemory.toFixed(2);
-            window.alert(`${name[2]}: ${memory[name[2]]}`);
         };
 
         // Command AM
@@ -330,9 +331,10 @@ const recursiveCalculator = () => {
             const name = amRegex.exec(userInput);
 
             // Creating the memory
-            memory[name[2]] = 0.0;
+            memory[name[2]] = 0;
+            memory[name[2]] = memory[name[2]].toFixed(2);
             console.log(memory);
-            window.alert(`Memoria criada com o nome: ${name[2]}`);
+            window.alert(`memoria criada com o nome: ${name[2]}`);
         };
 
         // Run the command
@@ -363,7 +365,7 @@ const recursiveCalculator = () => {
             ? (() => {
                   let result = ce(userInput);
                   if (parseFloat(result)) {
-                      result = result.toFixed(2);
+                      result = Math.round(result * 100) / 100;
                   }
 
                   window.alert(result);
