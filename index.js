@@ -1,18 +1,4 @@
 "use strict";
-/*
-
-Prompt
-
-Create 7 functions
-VM - Consultar o valor da memoria 
-LM - Indicar o nome das memorias 
-CE - Calcular o valor duma expressao 
-AVM - Atribuir ultimo valor calculado a uma memoria 
-A - Ajuda 
-AM - Alocar Memória
-S – Sair
-
-*/
 
 const recursiveCalculator = () => {
     //Memory
@@ -24,7 +10,7 @@ const recursiveCalculator = () => {
     const loop = () => {
         // Ask input
         const userInput = window.prompt(
-            "Hello user! What you need me to do? (Press A for help)"
+            "Hello user! What you need me to do? (Press H for help)"
         );
         // console.log({ userInput });
 
@@ -37,37 +23,37 @@ const recursiveCalculator = () => {
         const commandConst = command(userInput);
         // console.log({ commandConst });
 
-        //Command S
-        const s = () => {
-            window.alert("Aplicacao terminada. Ate a proxima.");
+        //Command E
+        const e = () => {
+            window.alert("Application finished!");
             return;
         };
 
-        // Command A
-        const a = () => {
+        // Command H
+        const h = () => {
             window.alert(
-                "VM - Consultar o valor da memoria\nLM - Indicar o nome das memorias\nCE - Calcular o valor duma expressao\nAVM - Atribuir ultimo valor calculado a uma memoria\nA - Ajuda\nAM - Alocar Memória\nS – Sair"
+                "MV - Consult the memory value\nIM - Indicate the memories\nCE - Calculate the value of an expression\nAVM - Assign last calculated value to a memory\nH - Help\nAM - Allocate memory\nE – Exit"
             );
         };
 
-        // VM Command
-        const vm = () => {
+        // MV Command
+        const mv = () => {
             const amRegex = /^(\w+) (\w+)/gi;
             const name = amRegex.exec(userInput);
 
             if (!memory.hasOwnProperty(name[2])) {
-                window.alert("Memoria nao existente.");
+                window.alert("Non-existent memory.");
             }
 
             window.alert(`${name[2]}: ${memory[name[2]]}`);
         };
 
-        // LM Command
-        const lm = () => {
+        // IM Command
+        const im = () => {
             const keysArr = Object.keys(memory);
             console.log(memory);
             if (keysArr == 0) {
-                window.alert("Calculadora sem memorias.");
+                window.alert("Calculator without memories.");
             } else if (keysArr[0] && !keysArr[1]) {
                 console.log("Test1");
                 Object.entries(memory).forEach(([key, value]) =>
@@ -179,7 +165,7 @@ const recursiveCalculator = () => {
             isBalanced(userInputSplice);
 
             if (balanced.length !== 0) {
-                return (finalResult = "Expressao mal definida.");
+                return (finalResult = "Expression poorly defined.");
             }
 
             const calculation = () => {
@@ -215,7 +201,7 @@ const recursiveCalculator = () => {
                         userInputSplice[closeBracketIndex[0] + 2] !== "(" ||
                         userInputSplice[userInputSplice.length - 1] !== ")"
                     ) {
-                        return (finalResult = "Expressao mal definida.");
+                        return (finalResult = "Expression poorly defined.");
                     }
 
                     // If arg1 is on memory
@@ -273,7 +259,7 @@ const recursiveCalculator = () => {
                         userInputSplice[openBracketIndex[0]] !== "(" ||
                         userInputSplice[userInputSplice.length - 1] !== ")"
                     ) {
-                        return (finalResult = "Expressao mal definida.");
+                        return (finalResult = "Expression poorly defined.");
                     }
 
                     // If arg3 is on memory
@@ -313,7 +299,7 @@ const recursiveCalculator = () => {
                     finalResult = unaryCalculation(arg3)[operator];
                     ramMemory = finalResult;
                 } else {
-                    finalResult = "Expressao mal definida.";
+                    finalResult = "Expression poorly defined.";
                 }
             };
             calculation();
@@ -331,7 +317,7 @@ const recursiveCalculator = () => {
             // Creating the memory
 
             if (!memory.hasOwnProperty(name[2])) {
-                window.alert("Memoria nao existente.");
+                window.alert("Non-existent memory.");
             } else {
                 memory[name[2]] = ramMemory.toFixed(2);
                 window.alert(`${name[2]}: ${memory[name[2]]}`);
@@ -347,7 +333,7 @@ const recursiveCalculator = () => {
             memory[name[2]] = 0;
             memory[name[2]] = memory[name[2]].toFixed(2);
             console.log(memory);
-            window.alert(`memoria criada com o nome: ${name[2]}`);
+            window.alert(`Created memory with the name: ${name[2]}`);
         };
 
         // Run the command
@@ -355,23 +341,23 @@ const recursiveCalculator = () => {
             return commandConst.toUpperCase() === arg1;
         };
 
-        check("S")
+        check("E")
             ? (() => {
-                  s();
+                  e();
               })()
-            : check("A")
+            : check("H")
             ? (() => {
-                  a();
+                  h();
                   loop();
               })()
-            : check("VM")
+            : check("MV")
             ? (() => {
-                  vm();
+                  mv();
                   loop();
               })()
-            : check("LM")
+            : check("IM")
             ? (() => {
-                  lm();
+                  im();
                   loop();
               })()
             : check("CE")
@@ -394,7 +380,7 @@ const recursiveCalculator = () => {
                   am();
                   loop();
               })()
-            : console.log("Opcao inexistente.");
+            : console.log("Option not available");
     };
 
     loop();
