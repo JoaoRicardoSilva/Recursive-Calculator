@@ -57,9 +57,9 @@ const recursiveCalculator = () => {
 
             if (!memory.hasOwnProperty(name[2])) {
                 window.alert("Memoria nao existente.");
+            } else {
+                window.alert(`${name[2]}: ${memory[name[2]]}`);
             }
-
-            window.alert(`${name[2]}: ${memory[name[2]]}`);
         };
 
         // LM Command
