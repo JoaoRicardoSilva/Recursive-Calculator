@@ -1,10 +1,13 @@
 # Recursive-Calculator
 
 Project for training JavaScript!
+Branch "English": Translated to english!
 
 ### **Objective:**
 
 Create a calculator that have 7 functionalities.
+
+PORTUGUESE
 
 • VM - Consultar o valor da memoria
 
@@ -20,6 +23,24 @@ Create a calculator that have 7 functionalities.
 
 • S – Sair
 
+
+ENGLISH
+
+• MV - Consult the memory value
+
+• IM - Indicate the memories
+
+• CE - Calculate the value of an expression
+
+• AVM - Assign last calculated value to a memory
+
+• H - Help
+
+• AM - Allocate memory
+
+• E – Exit
+
+
 **Some rules:**
 
 • Cannot use iterations.
@@ -28,10 +49,4 @@ Create a calculator that have 7 functionalities.
 
 • The user will not make mistakes when entering arguments to the commands
 
-• In AM Command, user only create only two memories
-
-**Possible improvements:**
-
-• Change the Portuguese to English
-
-• Change unaryOperator to case insensitive
+• In AM Command, user only create two memories
