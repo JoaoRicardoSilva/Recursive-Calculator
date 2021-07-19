@@ -1,6 +1,6 @@
 # Recursive-Calculator
 
-Project for training JavaScript!
+Project for training JavaScript and Recursion!
 
 Branch "English": Translated to english!
 
